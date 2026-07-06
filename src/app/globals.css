@@ -1,0 +1,401 @@
+@import "tailwindcss";
+
+/* ============================================
+   NEO BRUTALISM DESIGN SYSTEM
+   Portfolio Erwansyah
+   ============================================ */
+
+:root {
+  /* Core colors */
+  --brutal-bg: #fffdf0;
+  --brutal-bg-dark: #0a0a0a;
+  --brutal-text: #0a0a0a;
+  --brutal-text-dark: #fffdf0;
+
+  /* Accent colors — theme switchable */
+  --brutal-accent: #f5e642;
+  --brutal-accent-secondary: #00c2a8;
+  --brutal-accent-danger: #ff3b3b;
+
+  /* Border & Shadow */
+  --brutal-border: #0a0a0a;
+  --brutal-border-width: 3px;
+  --brutal-shadow-sm: 3px 3px 0px #0a0a0a;
+  --brutal-shadow-md: 5px 5px 0px #0a0a0a;
+  --brutal-shadow-lg: 8px 8px 0px #0a0a0a;
+  --brutal-shadow-xl: 12px 12px 0px #0a0a0a;
+
+  /* Typography */
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), 'Courier New', monospace;
+}
+
+/* Dark mode theme */
+[data-theme="dark"] {
+  --brutal-bg: #0a0a0a;
+  --brutal-text: #fffdf0;
+  --brutal-border: #fffdf0;
+  --brutal-shadow-sm: 3px 3px 0px #fffdf0;
+  --brutal-shadow-md: 5px 5px 0px #fffdf0;
+  --brutal-shadow-lg: 8px 8px 0px #fffdf0;
+  --brutal-shadow-xl: 12px 12px 0px #fffdf0;
+}
+
+/* Theme accent variants */
+[data-accent="yellow"] { --brutal-accent: #f5e642; }
+[data-accent="green"] { --brutal-accent: #00ff88; }
+[data-accent="red"] { --brutal-accent: #ff3b3b; }
+[data-accent="teal"] { --brutal-accent: #00c2a8; }
+
+/* ============================================
+   BASE RESET & GLOBAL
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-display);
+  background-color: var(--brutal-bg);
+  color: var(--brutal-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.5;
+}
+
+::selection {
+  background-color: var(--brutal-accent);
+  color: var(--brutal-text);
+}
+
+/* ============================================
+   NEO BRUTAL UTILITY CLASSES
+   ============================================ */
+
+/* Cards */
+.brutal-card {
+  background-color: var(--brutal-bg);
+  border: var(--brutal-border-width) solid var(--brutal-border);
+  box-shadow: var(--brutal-shadow-md);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.brutal-card:hover {
+  box-shadow: var(--brutal-shadow-lg);
+  transform: translate(-2px, -2px);
+}
+
+.brutal-card-accent {
+  background-color: var(--brutal-accent);
+  border: var(--brutal-border-width) solid var(--brutal-border);
+  box-shadow: var(--brutal-shadow-md);
+}
+
+/* Buttons */
+.brutal-btn {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border: var(--brutal-border-width) solid var(--brutal-border);
+  box-shadow: var(--brutal-shadow-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: box-shadow 0.1s ease, transform 0.1s ease;
+  background-color: var(--brutal-accent);
+  color: var(--brutal-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brutal-btn:hover {
+  box-shadow: var(--brutal-shadow-md);
+  transform: translate(-2px, -2px);
+}
+
+.brutal-btn:active {
+  box-shadow: 1px 1px 0px var(--brutal-border);
+  transform: translate(2px, 2px);
+}
+
+.brutal-btn-outline {
+  background-color: transparent;
+  color: var(--brutal-text);
+}
+
+.brutal-btn-outline:hover {
+  background-color: var(--brutal-accent);
+}
+
+.brutal-btn-dark {
+  background-color: var(--brutal-text);
+  color: var(--brutal-bg);
+}
+
+.brutal-btn-dark:hover {
+  background-color: var(--brutal-accent);
+  color: var(--brutal-text);
+}
+
+.brutal-btn-sm {
+  padding: 0.4rem 0.875rem;
+  font-size: 0.75rem;
+}
+
+.brutal-btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+}
+
+/* Inputs */
+.brutal-input {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: var(--brutal-border-width) solid var(--brutal-border);
+  background-color: var(--brutal-bg);
+  color: var(--brutal-text);
+  outline: none;
+  transition: box-shadow 0.15s ease;
+  box-shadow: var(--brutal-shadow-sm);
+}
+
+.brutal-input:focus {
+  box-shadow: var(--brutal-shadow-md);
+}
+
+.brutal-textarea {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: var(--brutal-border-width) solid var(--brutal-border);
+  background-color: var(--brutal-bg);
+  color: var(--brutal-text);
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+  transition: box-shadow 0.15s ease;
+  box-shadow: var(--brutal-shadow-sm);
+}
+
+.brutal-textarea:focus {
+  box-shadow: var(--brutal-shadow-md);
+}
+
+/* Labels */
+.brutal-label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: var(--brutal-text);
+}
+
+/* Tags / Badges */
+.brutal-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.625rem;
+  border: 2px solid var(--brutal-border);
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--brutal-bg);
+  color: var(--brutal-text);
+}
+
+.brutal-tag-accent {
+  background-color: var(--brutal-accent);
+  color: var(--brutal-text);
+}
+
+/* Section Title */
+.brutal-section-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--brutal-text);
+}
+
+/* Mono text */
+.font-mono-brutal {
+  font-family: var(--font-mono);
+}
+
+/* Border utilities */
+.brutal-border-box {
+  border: var(--brutal-border-width) solid var(--brutal-border);
+}
+
+.brutal-border-thick {
+  border: 5px solid var(--brutal-border);
+}
+
+/* Shadow utilities */
+.brutal-shadow-sm { box-shadow: var(--brutal-shadow-sm); }
+.brutal-shadow-md { box-shadow: var(--brutal-shadow-md); }
+.brutal-shadow-lg { box-shadow: var(--brutal-shadow-lg); }
+.brutal-shadow-xl { box-shadow: var(--brutal-shadow-xl); }
+
+/* Divider */
+.brutal-divider {
+  height: 4px;
+  background-color: var(--brutal-border);
+  border: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--brutal-bg);
+  border-left: 2px solid var(--brutal-border);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brutal-text);
+}
+
+/* Responsive container */
+.brutal-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .brutal-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Navigation */
+.brutal-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--brutal-text);
+  border-bottom: 3px solid var(--brutal-border);
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+/* Section spacing */
+.brutal-section {
+  padding: 5rem 0;
+}
+
+@media (min-width: 768px) {
+  .brutal-section {
+    padding: 7rem 0;
+  }
+}
+
+/* Highlight text */
+.brutal-highlight {
+  background-color: var(--brutal-accent);
+  padding: 0 0.25rem;
+  display: inline;
+}
+
+/* Grid patterns */
+.brutal-grid-bg {
+  background-image: 
+    linear-gradient(var(--brutal-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--brutal-border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-color: var(--brutal-bg);
+  opacity: 0.05;
+}
+
+/* Toast / Alert */
+.brutal-toast {
+  border: var(--brutal-border-width) solid var(--brutal-border);
+  box-shadow: var(--brutal-shadow-md);
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  background-color: var(--brutal-accent);
+  color: var(--brutal-text);
+}
+
+/* Admin specific */
+.admin-sidebar {
+  width: 280px;
+  min-height: 100dvh;
+  border-right: var(--brutal-border-width) solid var(--brutal-border);
+  background-color: var(--brutal-text);
+  color: var(--brutal-bg);
+  padding: 2rem 1.5rem;
+  flex-shrink: 0;
+}
+
+/* Animations (minimal, brutal) */
+@keyframes brutal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.brutal-animate-in {
+  animation: brutal-in 0.3s ease forwards;
+}
+
+@keyframes brutal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.brutal-cursor::after {
+  content: '_';
+  animation: brutal-blink 1s step-end infinite;
+  color: var(--brutal-accent);
+}
+
+/* Print styles for CV export */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+  .brutal-card {
+    box-shadow: none;
+    border: 1px solid black;
+  }
+  .brutal-btn {
+    display: none;
+  }
+}
+
+/* Marquee animation */
+@keyframes scroll-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
