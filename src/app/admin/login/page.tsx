@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
-import { Lock, EnvelopeSimple, Eye, EyeSlash, Warning } from '@phosphor-icons/react'
+import { Lock, EnvelopeSimple, Eye, EyeSlash, Warning } from '@phosphor-icons/react/dist/ssr'
 
 export default function AdminLoginPage() {
   const router = useRouter()

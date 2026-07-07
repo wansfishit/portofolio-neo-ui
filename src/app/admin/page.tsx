@@ -32,7 +32,7 @@ import {
   Sun,
   Moon,
   GithubLogo,
-} from '@phosphor-icons/react'
+} from '@phosphor-icons/react/dist/ssr'
 
 type Tab = 'profile' | 'skills' | 'projects' | 'settings'
 

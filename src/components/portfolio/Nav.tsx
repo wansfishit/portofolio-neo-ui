@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { List, X } from '@phosphor-icons/react'
+import { List, X } from '@phosphor-icons/react/dist/ssr'
 
 const NAV_LINKS = [
   { href: '#about', label: 'About' },
@@ -41,7 +41,7 @@ export default function Nav() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden text-[var(--brutal-bg)] hover:text-[var(--brutal-accent)] transition-colors"
+          className="md:hidden p-3 -mr-3 text-[var(--brutal-bg)] hover:text-[var(--brutal-accent)] transition-colors focus:outline-none flex items-center justify-center min-w-[44px] min-h-[44px]"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}

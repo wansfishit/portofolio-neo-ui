@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { EnvelopeSimple, GithubLogo, MapPin, PaperPlaneTilt, WhatsappLogo, TelegramLogo, InstagramLogo } from '@phosphor-icons/react'
+import { EnvelopeSimple, GithubLogo, MapPin, PaperPlaneTilt, WhatsappLogo, TelegramLogo, InstagramLogo } from '@phosphor-icons/react/dist/ssr'
 import type { Profile } from '@/lib/types'
 
 interface ContactProps {

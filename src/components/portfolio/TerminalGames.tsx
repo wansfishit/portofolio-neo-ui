@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { GameController, ArrowLeft, ArrowUp, ArrowDown, Play } from '@phosphor-icons/react'
+import { GameController, ArrowLeft, ArrowUp, ArrowDown, Play } from '@phosphor-icons/react/dist/ssr'
 
 type GameType = 'menu' | 'snake' | 'tictactoe' | 'dino' | 'none'
 
@@ -224,13 +224,13 @@ function SnakeGame({ onBack }: { onBack: () => void }) {
       }
 
       row.push(
-        <span key={x} style={{ color, transition: 'none' }} className="font-mono-brutal text-base leading-none">
+        <span key={x} style={{ color, transition: 'none' }} className="font-mono-brutal text-xs xs:text-sm sm:text-base leading-none w-3 sm:w-4 text-center inline-block">
           {char}
         </span>
       )
     }
     cells.push(
-      <div key={y} className="flex gap-2 justify-center leading-none">
+      <div key={y} className="flex gap-0.5 justify-center leading-none">
         {row}
       </div>
     )
@@ -278,47 +278,51 @@ function SnakeGame({ onBack }: { onBack: () => void }) {
       </div>
 
       {/* Mobile controls */}
-      <div className="flex flex-col items-center gap-1 mt-2">
+      <div className="flex flex-col items-center gap-1.5 mt-3">
         <button
           onClick={() => {
             if (!isStarted) setIsStarted(true)
             if (directionRef.current[1] !== 1) setDir([0, -1])
           }}
-          className="w-10 h-8 border-[2px] flex items-center justify-center"
+          className="w-14 h-11 border-[2px] flex items-center justify-center active:scale-95 transition-transform"
           style={{ borderColor: '#333', background: '#111' }}
+          aria-label="Move Up"
         >
-          <ArrowUp size={16} />
+          <ArrowUp size={20} />
         </button>
-        <div className="flex gap-4">
+        <div className="flex gap-3">
           <button
             onClick={() => {
               if (!isStarted) setIsStarted(true)
               if (directionRef.current[0] !== 1) setDir([-1, 0])
             }}
-            className="w-10 h-8 border-[2px] flex items-center justify-center"
+            className="w-14 h-11 border-[2px] flex items-center justify-center active:scale-95 transition-transform"
             style={{ borderColor: '#333', background: '#111' }}
+            aria-label="Move Left"
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={20} />
           </button>
           <button
             onClick={() => {
               if (!isStarted) setIsStarted(true)
               if (directionRef.current[1] !== -1) setDir([0, 1])
             }}
-            className="w-10 h-8 border-[2px] flex items-center justify-center"
+            className="w-14 h-11 border-[2px] flex items-center justify-center active:scale-95 transition-transform"
             style={{ borderColor: '#333', background: '#111' }}
+            aria-label="Move Down"
           >
-            <ArrowDown size={16} />
+            <ArrowDown size={20} />
           </button>
           <button
             onClick={() => {
               if (!isStarted) setIsStarted(true)
               if (directionRef.current[0] !== -1) setDir([1, 0])
             }}
-            className="w-10 h-8 border-[2px] flex items-center justify-center"
+            className="w-14 h-11 border-[2px] flex items-center justify-center active:scale-95 transition-transform"
             style={{ borderColor: '#333', background: '#111' }}
+            aria-label="Move Right or Play"
           >
-            <Play size={16} className="rotate-0" />
+            <Play size={20} className="rotate-0" />
           </button>
         </div>
       </div>
@@ -326,7 +330,7 @@ function SnakeGame({ onBack }: { onBack: () => void }) {
       {/* Back button */}
       <button
         onClick={onBack}
-        className="mt-3 py-1.5 border-[2px] border-[#333] text-center hover:bg-[#222]"
+        className="mt-4 py-3 sm:py-1.5 border-[2px] border-[#333] text-center hover:bg-[#222] min-h-[44px] sm:min-h-0 font-bold active:scale-98 transition-transform"
       >
         ← Back to Menu
       </button>
@@ -710,11 +714,9 @@ function DinoGame({ onBack }: { onBack: () => void }) {
                 return (
                   <span
                     key={cIdx}
+                    className="w-[9px] xs:w-[12px] inline-block text-center font-mono-brutal text-[10px] xs:text-sm"
                     style={{
                       color,
-                      width: '12px',
-                      textAlign: 'center',
-                      display: 'inline-block',
                     }}
                   >
                     {cell}

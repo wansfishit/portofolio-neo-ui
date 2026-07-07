@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, GithubLogo, EnvelopeSimple, MapPin, Printer, GameController, WhatsappLogo, TelegramLogo, InstagramLogo } from '@phosphor-icons/react'
+import { ArrowRight, GithubLogo, EnvelopeSimple, MapPin, Printer, GameController, WhatsappLogo, TelegramLogo, InstagramLogo } from '@phosphor-icons/react/dist/ssr'
 import type { Profile } from '@/lib/types'
 import TerminalGames from './TerminalGames'
 
@@ -28,7 +28,7 @@ export default function Hero({ profile }: HeroProps) {
   return (
     <section
       id="hero"
-      className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden"
+      className="min-h-[100dvh] flex flex-col justify-center relative overflow-x-hidden py-12 lg:py-0"
       aria-label="Hero section"
     >
       {/* Grid background */}
@@ -42,7 +42,7 @@ export default function Hero({ profile }: HeroProps) {
         aria-hidden="true"
       />
 
-      <div className="brutal-container relative z-10 pt-24 pb-16">
+      <div className="brutal-container relative z-10 pt-20 pb-12 lg:pt-24 lg:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
           {/* ── Left: Content ── */}
@@ -158,12 +158,39 @@ export default function Hero({ profile }: HeroProps) {
           >
             {/* Title bar */}
             <div
-              className="flex items-center gap-2 px-4 py-3"
+              className="flex items-center gap-1.5 px-4 py-2.5"
               style={{ background: '#111111', borderBottom: '2px solid #2a2a2a' }}
             >
-              <span className="w-3 h-3 rounded-full" style={{ background: '#ff5f57' }} aria-hidden="true" />
-              <span className="w-3 h-3 rounded-full" style={{ background: '#febc2e' }} aria-hidden="true" />
-              <span className="w-3 h-3 rounded-full" style={{ background: '#28c840' }} aria-hidden="true" />
+              <button
+                onClick={() => setPlayMode(false)}
+                className="w-5 h-5 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-transform focus:outline-none flex-shrink-0"
+                style={{ background: 'transparent', cursor: playMode ? 'pointer' : 'default' }}
+                aria-label="Close terminal game"
+                title={playMode ? "Close terminal game" : undefined}
+                disabled={!playMode}
+              >
+                <span className="w-3 h-3 rounded-full" style={{ background: '#ff5f57' }} />
+              </button>
+              <button
+                onClick={() => setPlayMode(true)}
+                className="w-5 h-5 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-transform focus:outline-none flex-shrink-0"
+                style={{ background: 'transparent', cursor: !playMode ? 'pointer' : 'default' }}
+                aria-label="Start terminal game option"
+                title={!playMode ? "Start terminal game" : undefined}
+                disabled={playMode}
+              >
+                <span className="w-3 h-3 rounded-full" style={{ background: '#febc2e' }} />
+              </button>
+              <button
+                onClick={() => setPlayMode(true)}
+                className="w-5 h-5 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-transform focus:outline-none flex-shrink-0"
+                style={{ background: 'transparent', cursor: !playMode ? 'pointer' : 'default' }}
+                aria-label="Play terminal game"
+                title={!playMode ? "Play terminal game" : undefined}
+                disabled={playMode}
+              >
+                <span className="w-3 h-3 rounded-full" style={{ background: '#28c840' }} />
+              </button>
               <span className="ml-3 font-mono-brutal text-xs" style={{ color: '#777777' }}>
                 ~/erwansyah/profile.json
               </span>
@@ -171,7 +198,7 @@ export default function Hero({ profile }: HeroProps) {
 
             {/* Code body */}
             <div
-              className="p-5 font-mono-brutal text-sm"
+              className="p-4 sm:p-5 font-mono-brutal text-xs sm:text-sm break-all whitespace-pre-wrap"
               style={{ background: '#1e1e1e', minHeight: '380px' }}
             >
               {playMode ? (
@@ -270,7 +297,7 @@ export default function Hero({ profile }: HeroProps) {
                     
                     <button
                       onClick={() => setPlayMode(true)}
-                      className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold font-mono-brutal transition-all"
+                      className="flex items-center gap-2 px-4 py-3 sm:px-3 sm:py-1.5 text-xs font-bold font-mono-brutal transition-all min-h-[44px] sm:min-h-0 active:scale-95"
                       style={{
                         border: '2px solid #f5e642',
                         color: '#f5e642',
@@ -279,7 +306,7 @@ export default function Hero({ profile }: HeroProps) {
                       }}
                       id="terminal-play-game-btn"
                     >
-                      <GameController size={14} weight="bold" />
+                      <GameController size={16} weight="bold" />
                       PLAY GAMES
                     </button>
                   </div>

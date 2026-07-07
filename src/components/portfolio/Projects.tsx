@@ -1,20 +1,52 @@
-import { GithubLogo, ArrowSquareOut, Star } from '@phosphor-icons/react/dist/ssr'
+'use client'
+
+import { useState, useEffect } from 'react'
+import { GithubLogo, ArrowSquareOut, Star, GitFork } from '@phosphor-icons/react/dist/ssr'
 import type { Project } from '@/lib/types'
 
 interface ProjectsProps {
-  projects: Project[]
+  projects?: Project[] // Made optional to prevent breaking parent calls
 }
 
-export default function Projects({ projects }: ProjectsProps) {
-  const featured = projects.filter((p) => p.featured)
-  const others = projects.filter((p) => !p.featured)
+interface GithubRepo {
+  id: number
+  name: string
+  description: string | null
+  html_url: string
+  stargazers_count: number
+  forks_count: number
+  language: string | null
+}
+
+export default function Projects({}: ProjectsProps) {
+  const [repos, setRepos] = useState<GithubRepo[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [showAllRepos, setShowAllRepos] = useState(false)
+
+  useEffect(() => {
+    async function fetchRepos() {
+      try {
+        // Fetch up to 30 repos to make "View All" instant and rate-limit safe
+        const res = await fetch('https://api.github.com/users/wansfishit/repos?sort=updated&per_page=30')
+        if (!res.ok) throw new Error('Failed to fetch repositories')
+        const data = (await res.json()) as GithubRepo[]
+        setRepos(data)
+      } catch (err: any) {
+        setError(err.message || 'Error fetching data')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchRepos()
+  }, [])
 
   return (
     <section id="projects" className="brutal-section" aria-labelledby="projects-heading">
       <div className="brutal-container">
         {/* Section header */}
         <div className="flex items-end gap-4 mb-12">
-          <h2 id="projects-heading" className="brutal-section-title">
+          <h2 id="projects-heading" className="brutal-section-title mb-0">
             Projects
           </h2>
           <div
@@ -26,35 +58,94 @@ export default function Projects({ projects }: ProjectsProps) {
           </span>
         </div>
 
-        {projects.length === 0 ? (
-          <div className="text-center py-16 opacity-40">
-            <p className="font-mono-brutal text-sm">No projects added yet.</p>
+        {/* Live GitHub Feed Loader / Renderer */}
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <div
+              className="w-10 h-10 border-[4px] border-t-transparent animate-spin"
+              style={{ borderColor: 'var(--brutal-text) var(--brutal-text) transparent transparent' }}
+            />
+            <span className="font-mono-brutal text-xs opacity-60">Syncing live repositories from GitHub...</span>
+          </div>
+        ) : error ? (
+          <div className="text-center py-16 border-[3px] border-[#ff5f57] bg-[rgba(255,95,87,0.03)] p-6 brutal-card">
+            <p className="font-bold text-sm text-[#ff5f57] mb-2">Error Loading Live Feed</p>
+            <p className="font-mono-brutal text-xs opacity-60">Please check your internet connection or try again later.</p>
           </div>
         ) : (
-          <>
-            {/* Featured projects */}
-            {featured.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                {featured.map((project, i) => (
-                  <ProjectCard key={project.id} project={project} featured />
-                ))}
+          <div className="brutal-animate-in">
+            {/* Repos Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {(showAllRepos ? repos : repos.slice(0, 6)).map((repo) => (
+                <article
+                  key={repo.id}
+                  className="brutal-card p-6 flex flex-col h-full justify-between group"
+                  aria-label={`GitHub repo: ${repo.name}`}
+                >
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <GithubLogo size={16} weight="bold" className="opacity-75" />
+                      <h3 className="font-bold text-base md:text-lg uppercase truncate leading-none" title={repo.name}>
+                        {repo.name}
+                      </h3>
+                    </div>
+                    
+                    <p className="text-sm opacity-70 leading-relaxed mb-6 line-clamp-3 min-h-[60px]">
+                      {repo.description || 'No description provided for this repository.'}
+                    </p>
+                  </div>
+
+                  <div>
+                    {/* Stats row */}
+                    <div className="flex items-center gap-4 text-xs font-mono-brutal opacity-60 mb-5 pt-3 border-t border-[rgba(0,0,0,0.05)]">
+                      {repo.language && (
+                        <span className="brutal-tag text-[9px] px-1.5 py-0.5" style={{ background: 'var(--brutal-accent)', color: 'var(--brutal-text)' }}>
+                          {repo.language}
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1.5">
+                        <Star size={13} weight="fill" />
+                        {repo.stargazers_count}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <GitFork size={13} weight="bold" />
+                        {repo.forks_count}
+                      </span>
+                    </div>
+
+                    <a
+                      href={repo.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="brutal-btn brutal-btn-sm py-1.5 px-3 flex items-center justify-center gap-1.5 text-xs font-mono-brutal w-full"
+                    >
+                      <ArrowSquareOut size={14} weight="bold" />
+                      View Repository
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* High-contrast View All button */}
+            {repos.length > 6 && (
+              <div className="mt-8 flex justify-center">
+                <button
+                  onClick={() => setShowAllRepos(!showAllRepos)}
+                  className="brutal-btn font-mono-brutal text-xs font-bold uppercase hover:translate-x-0.5 hover:-translate-y-0.5 transition-all"
+                  style={{
+                    background: 'var(--brutal-accent)',
+                    color: 'var(--brutal-text)',
+                    border: '3px solid var(--brutal-border)',
+                    boxShadow: '3px 3px 0px var(--brutal-border)',
+                  }}
+                  id="projects-view-all-btn"
+                >
+                  {showAllRepos ? 'Collapse Repositories ▲' : 'View All Repositories ▼'}
+                </button>
               </div>
             )}
-
-            {/* Other projects */}
-            {others.length > 0 && (
-              <>
-                <h3 className="font-mono-brutal text-xs font-bold uppercase tracking-widest opacity-40 mb-4 mt-8">
-                  Other Projects
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {others.map((project) => (
-                    <ProjectCard key={project.id} project={project} featured={false} />
-                  ))}
-                </div>
-              </>
-            )}
-          </>
+          </div>
         )}
 
         {/* GitHub CTA */}
@@ -82,77 +173,5 @@ export default function Projects({ projects }: ProjectsProps) {
         </div>
       </div>
     </section>
-  )
-}
-
-function ProjectCard({ project, featured }: { project: Project; featured: boolean }) {
-  return (
-    <article
-      className="brutal-card p-6 flex flex-col h-full group"
-      aria-label={`Project: ${project.title}`}
-    >
-      {/* Top row */}
-      <div className="flex items-start justify-between gap-2 mb-3">
-        <div className="flex items-center gap-2">
-          {featured && (
-            <Star
-              size={14}
-              weight="fill"
-              className="text-[var(--brutal-accent)] flex-shrink-0"
-              aria-label="Featured project"
-            />
-          )}
-          <h3 className="font-bold text-base md:text-lg uppercase tracking-wide leading-tight">
-            {project.title}
-          </h3>
-        </div>
-      </div>
-
-      {/* Description */}
-      <p className="text-sm opacity-70 leading-relaxed flex-1 mb-6">
-        {project.description}
-      </p>
-
-      {/* Action links */}
-      {(project.github_url || project.live_url) && (
-        <div className="flex flex-wrap gap-2.5 mb-6">
-          {project.github_url && (
-            <a
-              href={project.github_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="brutal-btn brutal-btn-outline brutal-btn-sm py-1.5 px-3 flex items-center gap-1.5 text-xs font-mono-brutal"
-              style={{ padding: '0.4rem 0.8rem', borderColor: 'var(--brutal-border)' }}
-            >
-              <GithubLogo size={14} weight="bold" />
-              Source Code
-            </a>
-          )}
-          {project.live_url && (
-            <a
-              href={project.live_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="brutal-btn brutal-btn-sm py-1.5 px-3 flex items-center gap-1.5 text-xs font-mono-brutal"
-              style={{ padding: '0.4rem 0.8rem' }}
-            >
-              <ArrowSquareOut size={14} weight="bold" />
-              Live Demo
-            </a>
-          )}
-        </div>
-      )}
-
-      {/* Tech stack */}
-      {project.tech_stack && project.tech_stack.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-auto pt-2 border-t border-[rgba(0,0,0,0.05)]">
-          {project.tech_stack.map((tech) => (
-            <span key={tech} className="brutal-tag brutal-tag-accent text-[9px] px-2 py-0.5">
-              {tech}
-            </span>
-          ))}
-        </div>
-      )}
-    </article>
   )
 }
