@@ -143,10 +143,36 @@ export default function AdminDashboard() {
         </div>
       </aside>
 
+      {/* Mobile Header */}
+      <header
+        className="md:hidden flex items-center justify-between px-4 py-3.5 border-b-[3px]"
+        style={{ borderColor: 'rgba(255,253,240,0.15)', background: '#0a0a0a' }}
+      >
+        <div>
+          <p className="font-mono-brutal text-[9px] uppercase tracking-widest opacity-40 leading-none mb-1">
+            Portfolio CMS
+          </p>
+          <h1 className="font-bold text-base leading-none text-white">Admin Panel</h1>
+        </div>
+        <button
+          onClick={handleSignOut}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold font-mono-brutal transition-all active:scale-95 cursor-pointer text-[var(--brutal-accent-danger)]"
+          style={{
+            border: '2px solid var(--brutal-accent-danger)',
+            background: 'transparent',
+          }}
+          id="admin-mobile-signout-btn"
+          aria-label="Sign out"
+        >
+          <SignOut size={12} weight="bold" />
+          Sign Out
+        </button>
+      </header>
+
       {/* Mobile tab bar */}
       <div
         className="md:hidden flex border-b-[3px]"
-        style={{ borderColor: 'rgba(255,253,240,0.15)', background: 'var(--brutal-text)' }}
+        style={{ borderColor: 'rgba(255,253,240,0.15)', background: '#111111' }}
         role="tablist"
         aria-label="Admin navigation tabs"
       >
@@ -163,10 +189,10 @@ export default function AdminDashboard() {
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex-1 flex flex-col items-center gap-1 py-3 text-[9px] font-bold uppercase tracking-wide transition-all ${
+              className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-wide transition-all min-h-[48px] ${
                 activeTab === item.id
-                  ? 'text-[var(--brutal-accent)]'
-                  : 'text-[rgba(255,253,240,0.5)]'
+                  ? 'text-[var(--brutal-accent)] bg-[rgba(255,255,255,0.02)]'
+                  : 'text-[rgba(255,253,240,0.55)] hover:text-white'
               }`}
               role="tab"
               aria-selected={activeTab === item.id}

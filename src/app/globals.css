@@ -340,9 +340,9 @@ body {
 .admin-sidebar {
   width: 280px;
   min-height: 100dvh;
-  border-right: var(--brutal-border-width) solid var(--brutal-border);
-  background-color: var(--brutal-text);
-  color: var(--brutal-bg);
+  border-right: var(--brutal-border-width) solid rgba(255, 253, 240, 0.15);
+  background-color: #111111;
+  color: #fffdf0;
   padding: 2rem 1.5rem;
   flex-shrink: 0;
 }
